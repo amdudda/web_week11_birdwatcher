@@ -2,9 +2,13 @@ extends layout
 
 block content
 	h1 Bird records
+	hr
 
 	.birdsSeen
 		for bird in birds
+			form(action="/deleteBird", method="POST")
+				input(name="name" value="#{bird.name}" hidden)
+				input(name="delBird" type="submit" value="Delete #{bird.name}")
 			p Name: #{bird.name}
 			p Description: #{bird.description}
 			p Average Eggs Laid: #{bird.averageEggsLaid}
@@ -17,11 +21,11 @@ block content
 					for date in bird.datesSeen
 						li #{date}
 			form(action="/addDate", method="POST")
-
 				label Add new date seen
 					input(name="dateSeen" type="date" required)
 				input(name="name" value="#{bird.name}" hidden)
 				input(name="addDate" type="submit" value="Add new date")
+
 
 			hr
 

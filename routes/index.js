@@ -82,4 +82,27 @@ router.post('/addDate',function(req, res, next) {
 	});
 });
 
+/*
+ * DELETE a bird via post
+ */
+router.post('/deleteBird',function(req, res, next) {
+	var birdName = req.body.name;
+
+	// make sure there's a bird to work with
+	if (!birdName) {
+		res.redirect('/',{error: birdName + " not found!"})
+	}
+
+	// OK, no errors? try deleting that bird!
+	var query = { 'name' : birdName };
+	console.log("query string is: " + query);
+	Bird.remove( query, function(err) {
+		if (err) {
+			return next(new Error('Unable to delete bird named: ' + req.body.name));
+		}
+		res.redirect('/');
+	});
+
+});
+
 module.exports = router;
