@@ -132,11 +132,15 @@ router.post('/deleteBird',function(req, res, next) {
 router.post('/updateBird',function(req, res, next) {
 	// update the bird data based on form data
 	var myBird = req.body.originalName;
+	var threat = false;
+	console.log(req.body.threatened);
+	if (req.body.threatened) threat = true;
 	var query = { 'name' : myBird };
 	var updateString = {
 		name: req.body.name,
 		description: req.body.description,
 		averageEggsLaid: req.body.averageEggsLaid,
+		threatened: threat,
 		nestData : {
 			location: req.body.location,
 			materials: req.body.materials

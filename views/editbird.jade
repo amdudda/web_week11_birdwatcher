@@ -14,7 +14,10 @@ block content
 			input(name="averageEggsLaid" type="number", min="0", max="50" value="#{bird.averageEggsLaid}")
 		br
 		label Threatened?&nbsp;
-			input(name="threatened" type="checkbox" value="#{bird.threatened}")
+			if (bird.threatened == true)
+				input(name="threatened" type="checkbox" checked="true")
+			else
+				input(name="threatened" type="checkbox")
 		br
 		label Nest location&nbsp;
 			input(name="location" type="text" value="#{bird.nestData.location}")
