@@ -1,0 +1,27 @@
+extends layout
+
+block content
+	h1 Edit #{name}
+
+	form(submit='/updateBird', method='POST')
+		label Name (required)&nbsp;
+			input(name="name" type="text" required value="#{bird.name}")
+		br
+		label Description&nbsp;
+			input(name="description" type="text" value="#{bird.description}")
+		br
+		label Average Eggs&nbsp;
+			input(name="averageEggsLaid" type="number", min="0", max="50" value="#{bird.averageEggsLaid}")
+		br
+		label Threatened?&nbsp;
+			input(name="threatened" type="checkbox" value="#{bird.threatened}")
+		br
+		label Nest location&nbsp;
+			input(name="location" type="text" value="#{bird.location}")
+		br
+		label Nest materials&nbsp;
+			input(name="materials" type="text" value="#{bird.materials}")
+		br
+		input(type="submit" name="updateBird" value="update bird data")
+		input(name="originalName" type="hidden" value="#{bird.name}")  
+		// hidden field in case user changes Bird's name
