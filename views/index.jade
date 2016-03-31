@@ -7,8 +7,17 @@ block content
 	.birdsSeen
 		for bird in birds
 			form(action="/deleteBird", method="POST")
-				input(name="name" value="#{bird.name}" hidden)
-				input(name="delBird" type="submit" value="Delete #{bird.name}")
+				table
+					tr
+						td
+							label Edit #{bird.name}
+								input(type="radio" name="selectedAction" value="edit" checked="true")
+							br
+							label Delete #{bird.name}
+								input(type="radio" name="selectedAction" value="delete")
+							input(name="name" value="#{bird.name}" hidden)
+						td
+							input(name="delBird" type="submit" value="Perform requested action")
 			p Name: #{bird.name}
 			p Description: #{bird.description}
 			p Average Eggs Laid: #{bird.averageEggsLaid}

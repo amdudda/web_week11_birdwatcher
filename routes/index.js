@@ -6,10 +6,21 @@ var Bird = require('../models/bird.js');
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-	// ask schemi to find all bird documents and provide the results to the callback.
+	// ask schema to find all bird documents and provide the results to the callback.
 	Bird.find(function(err, birdDocs) {
 		if (err) { return next(err); }
 		return res.render('index', { birds: birdDocs, error: req.flash('error') });  // returns array of birds holding JSON objects of class Bird.
+	});
+});
+
+router.get('/editbird', function(req, res, next) {
+	// this is the bird we care about
+	var birdName = req.query.bName;
+	var query = { 'name' : birdName };
+	Bird.findOne( query, function(err, thisBird) {
+		if (err) { return next(err); }
+		// TODO set undefined values to empty string
+		return res.render('editbird',{ bird: thisBird });
 	});
 });
 
@@ -83,26 +94,48 @@ router.post('/addDate',function(req, res, next) {
 });
 
 /*
- * DELETE a bird via post
+ * delete a bird via POST
  */
 router.post('/deleteBird',function(req, res, next) {
 	var birdName = req.body.name;
-
-	// make sure there's a bird to work with
-	if (!birdName) {
+	var myAct = req.body.selectedAction;
+	console.log(myAct);
+	// make sure there's a bird to work with and an action to take
+	if (!birdName || myAct == "") {
 		res.redirect('/',{error: birdName + " not found!"})
 	}
 
-	// OK, no errors? try deleting that bird!
+	// OK, no errors? try performing the requested action!
 	var query = { 'name' : birdName };
-	console.log("query string is: " + query);
-	Bird.remove( query, function(err) {
-		if (err) {
-			return next(new Error('Unable to delete bird named: ' + req.body.name));
-		}
-		res.redirect('/');
-	});
+	// console.log("query string is: " + query);
 
+	if (myAct === "delete") {
+		Bird.remove( query, function(err) {
+			if (err) {
+				return next(new Error('Unable to delete bird named: ' + req.body.name));
+			}
+			res.redirect('/');
+		});
+	}
+	else if (myAct === "edit")
+	{
+		// redirect to an edit screen - pass bird's name along as a query parameter so 
+		// we can tease its data out from the db
+		res.redirect('/editbird/?bName=' + birdName);
+	} 
+
+});
+
+/*
+ * update bird via POST
+ */
+router.post('/updateBird',function(req, res, next) {
+	// update the bird data based on form data
+	console.log(req.body.originalName);
+	// TODO update the record
+
+	// redirect back to homepage.
+	res.redirect('/');
 });
 
 module.exports = router;
