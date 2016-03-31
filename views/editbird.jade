@@ -25,6 +25,7 @@ block content
 		label Nest materials&nbsp;
 			input(name="materials" type="text" value="#{bird.nestData.materials}")
 		br
+		// TODO: do we want to let users modify sighting dates?
 		input(type="submit" name="updateBird" value="update bird data")
 		input(name="originalName" type="hidden" value="#{bird.name}")  
 		// hidden field in case user changes Bird's name
