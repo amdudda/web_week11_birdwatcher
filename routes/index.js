@@ -131,11 +131,25 @@ router.post('/deleteBird',function(req, res, next) {
  */
 router.post('/updateBird',function(req, res, next) {
 	// update the bird data based on form data
-	console.log(req.body.originalName);
-	// TODO update the record
-
-	// redirect back to homepage.
-	res.redirect('/');
+	var myBird = req.body.originalName;
+	var query = { 'name' : myBird };
+	var updateString = {
+		name: req.body.name,
+		description: req.body.description,
+		averageEggsLaid: req.body.averageEggsLaid,
+		nestData : {
+			location: req.body.location,
+			materials: req.body.materials
+			}
+		};
+	// update the record - syntax caged from classroom slides
+	Bird.findOneAndUpdate( query, updateString, function(err, bird) {
+		if (err) {
+				return next(new Error('Unable to update bird named: ' + myBird));
+			}
+		// redirect back to homepage.
+		res.redirect('/');
+	});
 });
 
 module.exports = router;

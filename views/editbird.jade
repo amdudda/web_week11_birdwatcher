@@ -3,7 +3,7 @@ extends layout
 block content
 	h1 Edit #{name}
 
-	form(submit='/updateBird', method='POST')
+	form(action='/updateBird', method='POST')
 		label Name (required)&nbsp;
 			input(name="name" type="text" required value="#{bird.name}")
 		br
@@ -17,11 +17,15 @@ block content
 			input(name="threatened" type="checkbox" value="#{bird.threatened}")
 		br
 		label Nest location&nbsp;
-			input(name="location" type="text" value="#{bird.location}")
+			input(name="location" type="text" value="#{bird.nestData.location}")
 		br
 		label Nest materials&nbsp;
-			input(name="materials" type="text" value="#{bird.materials}")
+			input(name="materials" type="text" value="#{bird.nestData.materials}")
 		br
 		input(type="submit" name="updateBird" value="update bird data")
 		input(name="originalName" type="hidden" value="#{bird.name}")  
 		// hidden field in case user changes Bird's name
+
+		hr
+
+		a(href="/") Back to home page!  (Abandon changes.)
